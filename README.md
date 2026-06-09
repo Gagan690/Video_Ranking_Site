@@ -53,12 +53,6 @@ RM1/
 
 No installation is required.
 
-Open `index.html` directly in a browser:
-
-```text
-C:\Users\Lenovo\OneDrive\Documents\FinalProjects\RM1\index.html
-```
-
 You can also serve the folder with any static server if you prefer.
 
 ## How to Use
