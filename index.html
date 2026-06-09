@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RankingTheMomentsEditor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="RankingTheMomentsEditor home">
+        <span class="brand-mark">R</span>
+        <span>RankingTheMomentsEditor</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#features">Features</a>
+        <a href="#workspace">Workspace</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="ghost-button" href="#workspace">Open Editor</a>
+    </header>
+
+    <main id="top">
+      <section class="hero-section">
+        <div class="hero-copy">
+          <p class="eyebrow">Creator ranking studio</p>
+          <h1>Ranking the Moments</h1>
+          <p class="hero-text">
+            Paste video links, title each moment, rank the order, style the overlays, preview the short, and export a polished MP4.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-button" href="#workspace">Ranking the Moments</a>
+            <a class="secondary-button" href="#examples">View Examples</a>
+          </div>
+        </div>
+        <div class="hero-visual" aria-label="Preview of a ranked moments short">
+          <div class="phone-frame">
+            <div class="video-card rank-one">
+              <span>#1</span>
+              <strong>Last-second comeback</strong>
+            </div>
+            <div class="video-card rank-two">
+              <span>#2</span>
+              <strong>Crowd goes silent</strong>
+            </div>
+            <div class="video-card rank-three">
+              <span>#3</span>
+              <strong>The impossible save</strong>
+            </div>
+            <div class="scan-line"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="feature-band" id="features">
+        <div class="section-heading">
+          <p class="eyebrow">Workflow</p>
+          <h2>Built around the ranking edit loop</h2>
+        </div>
+        <div class="feature-grid">
+          <article>
+            <span>01</span>
+            <h3>Import videos</h3>
+            <p>Validate URLs, cache source media, generate metadata, and add entries to the preview and timeline.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Rank moments</h3>
+            <p>Use drag ordering, move controls, and title fields to define the exact sequence of the final short.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Style overlays</h3>
+            <p>Adjust fonts, colors, outline, background, aspect ratio, crop mode, and clip duration.</p>
+          </article>
+          <article>
+            <span>04</span>
+            <h3>Export MP4</h3>
+            <p>Track queued, processing, rendering, finalizing, and ready states with progress and file estimates.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="workspace-shell" id="workspace">
+        <div class="workspace-header">
+          <div>
+            <p class="eyebrow">Ranking Workspace</p>
+            <h2>Preview, rank, customize, export</h2>
+          </div>
+          <div class="workspace-actions">
+            <button class="secondary-button small" id="loadSampleButton" type="button">Load Sample</button>
+            <button class="primary-button small" id="generateButton" type="button">Generate / Rank & Edit</button>
+          </div>
+        </div>
+
+        <div class="workspace-grid">
+          <section class="editor-panel" aria-label="Preview editor">
+            <div class="preview-toolbar">
+              <label>
+                Aspect
+                <select id="aspectRatio">
+                  <option value="9:16">9:16</option>
+                  <option value="1:1">1:1</option>
+                  <option value="4:5">4:5</option>
+                  <option value="16:9">16:9</option>
+                  <option value="custom">Custom</option>
+                </select>
+              </label>
+              <label>
+                Crop
+                <select id="cropMode">
+                  <option value="Crop-to-Fill">Crop-to-Fill</option>
+                  <option value="Letterbox">Letterbox</option>
+                </select>
+              </label>
+              <label>
+                Duration
+                <input id="duration" type="range" min="8" max="90" value="30">
+              </label>
+              <output id="durationOutput">30s</output>
+            </div>
+
+            <div class="preview-stage">
+              <div class="preview-canvas ratio-916" id="previewCanvas">
+                <div class="canvas-bg"></div>
+                <div class="video-title-band">
+                  <div class="title-overlay" id="previewTitle">Add videos to begin</div>
+                </div>
+                <div class="ranking-stack" id="rankingStack" aria-label="Visible ranking overlay"></div>
+                <div class="caption-bar" id="previewMeta">9:16 • Crop-to-Fill • MP4</div>
+              </div>
+            </div>
+
+            <div class="timeline" id="timeline" aria-label="Timeline"></div>
+
+            <div class="playback-controls">
+              <button type="button" id="previousButton">Prev</button>
+              <button type="button" id="playButton">Play Preview</button>
+              <button type="button" id="nextButton">Next</button>
+            </div>
+
+            <div class="overlay-controls">
+              <h3>Overlay Layers</h3>
+              <label><input type="checkbox" id="showRank" checked> Ranking list</label>
+              <label><input type="checkbox" id="showTitle" checked> Top title band</label>
+              <label><input type="checkbox" id="showMeta" checked> Export metadata</label>
+            </div>
+          </section>
+
+          <aside class="entries-panel" aria-label="Video entries">
+            <div class="entry-form">
+              <label>
+                Video URL
+                <input id="videoUrl" type="url" placeholder="https://youtube.com/shorts/...">
+              </label>
+              <label>
+                Title
+                <input id="videoTitle" type="text" placeholder="Best moment title">
+              </label>
+              <button class="primary-button full" id="importButton" type="button">Import</button>
+            </div>
+
+            <div class="ranking-list-header">
+              <h3>Ranking List</h3>
+              <button class="ghost-button small" id="addVideoButton" type="button">Add Video</button>
+            </div>
+            <div class="entry-list" id="entryList"></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="settings-section" aria-label="Advanced Settings">
+        <div class="section-heading">
+          <p class="eyebrow">Advanced Settings</p>
+          <h2>Typography, colors, export</h2>
+        </div>
+        <div class="settings-grid">
+          <label>
+            Font Family
+            <select id="fontFamily">
+              <option value="Sora">Sora</option>
+              <option value="Inter">Inter</option>
+              <option value="Poppins">Poppins</option>
+              <option value="Space Grotesk">Space Grotesk</option>
+            </select>
+          </label>
+          <label>
+            Font Weight
+            <select id="fontWeight">
+              <option value="800">800</option>
+              <option value="700">700</option>
+              <option value="600">600</option>
+              <option value="500">500</option>
+            </select>
+          </label>
+          <label>
+            Font Size
+            <input id="fontSize" type="range" min="22" max="52" value="34">
+          </label>
+          <label>
+            Font Color
+            <input id="fontColor" type="color" value="#ffffff">
+          </label>
+          <label>
+            Outline
+            <input id="outlineColor" type="color" value="#111827">
+          </label>
+          <label>
+            Background
+            <input id="backgroundColor" type="color" value="#07111f">
+          </label>
+          <label>
+            Position
+            <select id="textPosition">
+              <option value="bottom">Bottom</option>
+              <option value="center">Center</option>
+              <option value="top">Top</option>
+            </select>
+          </label>
+          <label>
+            Alignment
+            <select id="textAlign">
+              <option value="center">Center</option>
+              <option value="left">Left</option>
+              <option value="right">Right</option>
+            </select>
+          </label>
+          <label>
+            Style Preset
+            <select id="stylePreset">
+              <option value="neon">Neon</option>
+              <option value="minimal">Minimal</option>
+              <option value="bold">Bold Sports</option>
+              <option value="cinematic">Cinematic</option>
+            </select>
+          </label>
+          <label>
+            Export Format
+            <select id="exportFormat">
+              <option value="MP4">MP4</option>
+              <option value="GIF">GIF optional</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="export-section" aria-label="Preview and Download">
+        <div>
+          <p class="eyebrow">Preview & Download</p>
+          <h2>Export status</h2>
+          <p id="exportCopy">Ready to queue a render when your ranking order looks right.</p>
+        </div>
+        <div class="export-card">
+          <div class="status-row">
+            <span id="exportStatus">Idle</span>
+            <strong id="exportProgress">0%</strong>
+          </div>
+          <div class="progress-track"><div id="progressBar"></div></div>
+          <dl>
+            <div><dt>Resolution</dt><dd id="resolution">1080 x 1920</dd></div>
+            <div><dt>Estimate</dt><dd id="fileSize">24 MB</dd></div>
+            <div><dt>Format</dt><dd id="formatLabel">MP4</dd></div>
+          </dl>
+          <button class="primary-button full" id="exportButton" type="button">Export MP4</button>
+          <a class="download-link" id="downloadLink" href="#" download="ranking-the-moments.mp4" aria-disabled="true">Download final file</a>
+        </div>
+      </section>
+
+      <section class="examples-section" id="examples">
+        <div class="section-heading">
+          <p class="eyebrow">Examples</p>
+          <h2>Ranking formats that fit short-form feeds</h2>
+        </div>
+        <div class="example-grid">
+          <article><strong>Top 5 clutch plays</strong><span>Bold Sports preset</span></article>
+          <article><strong>Best creator reactions</strong><span>Neon preset</span></article>
+          <article><strong>Most cinematic shots</strong><span>Cinematic preset</span></article>
+        </div>
+      </section>
+
+      <section class="faq-section" id="faq">
+        <div class="section-heading">
+          <p class="eyebrow">FAQ</p>
+          <h2>Platform notes</h2>
+        </div>
+        <details open>
+          <summary>How does importing work?</summary>
+          <p>The prototype validates URL-shaped input and adds metadata locally. Production should use API validation, a queue, FFmpeg or Remotion rendering, temporary storage, and thumbnail generation.</p>
+        </details>
+        <details>
+          <summary>What determines the ranking order?</summary>
+          <p>User-defined order is the default. Move controls and list selection update the preview, timeline, and export sequence.</p>
+        </details>
+        <details>
+          <summary>Where should production services run?</summary>
+          <p>A practical setup is Next.js on Vercel, render workers on Render, Fly.io, or Railway, Redis for jobs, PostgreSQL for projects, and R2 or S3 for cached media.</p>
+        </details>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
